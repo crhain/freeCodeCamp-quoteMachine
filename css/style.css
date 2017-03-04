@@ -1,0 +1,109 @@
+body {
+background-color: #D27979;
+}
+
+a {
+color: white;
+}
+
+#quote-display{
+background-color: white;
+border: 1px solid;
+box-shadow: 5px 5px 5px black;
+width: 80%;
+margin-top: 5%;
+margin-left: 10%;
+margin-right: 10%;
+
+}
+
+#quote-container{
+width: 100%;
+padding: 10%;
+
+
+}
+
+#quote-text{
+text-align: center;
+font-size: 1.2em;
+font-family: 'Courgette', cursive, sans-serif;
+}
+
+#quote-byline{
+text-align: right;
+font-size: 0.8em;
+}
+
+nav{
+/*padding-top: 50%;*/
+align-items: center;
+width: 100%;
+margin: 10px;
+}
+
+footer{
+color: white;
+text-align: center;
+margin-top: 10px;
+}
+
+.flex-container {
+display: flex;
+flex-wrap: wrap;
+}
+
+.button {
+background-color: #D27979;
+color: white;
+width: 100%;
+font-size: 1em;
+height: 50px;
+border-radius: 10%;
+}
+
+.button:hover{
+opacity: 0.6;
+}
+
+.hidden{
+opacity: 0.0;
+}
+
+@media screen and (min-width: 500px){
+#quote-text{
+font-size: 2em;
+}
+
+#quote-byline{
+font-size: 1em;
+}
+}
+
+@media screen and (min-width: 900px){
+#btn-quote{
+width: 100px;
+margin-left: 10%;
+}
+
+#btn-twitter, #btn-tumblr{
+width: 50px;
+}
+
+#quote-display{
+width: 60%;
+margin-left: 20%;
+margin-right: 20%;
+}
+
+}
+
+@media screen and (min-width: 1500px){
+
+#quote-display{
+width: 33%;
+margin-left: 33%;
+margin-right: 33%;
+}
+
+}
