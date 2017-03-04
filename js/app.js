@@ -1,69 +1,60 @@
+function logResults(data){
+  console.log(data);
+}
 
 var quote = (function(){
   var module = {};
   var currentFormatedQuote = '';
   var currentQuote = '';
   var currentAuthor = '';
-
-  function getQuote(){
+  //get a new quote from forismatic.com
+  function get(){
     //Set up text of quote so it starts hidden and indicates it is loading
     $(".hidden").css("opacity", 0.0);
     $("#quote-text").html('Loading...');
     $("#quote-byline").html('');
-
-    //Set up some variables for ajax request and the ajax request itself
-    var url = 'https://andruxnet-random-famous-quotes.p.mashape.com/cat=';
-
-    var key='OcI6bew9zhmshl2EtCEA84x2sF4Lp1C53f5jsn5JSaSDsd7w2u';
+    var apiUrl = "http://api.forismatic.com/api/1.0/";
+    var search = "?method=getQuote&key=457653&lang=en&format=jsonp";
+    apiUrl += search
+    //'http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&lang=en&format=jsonp'
     var request = $.ajax({
-      headers: {
-      'X-Mashape-Key': key,
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      url: url,
-      dataType: 'json'
+      url: apiUrl,
+      method: 'GET',
+      dataType: 'jsonp',
+      jsonp: 'jsonp',
+      cache: false
     });
-
-    request.done(function( jsonText ) {
-
+    request.success(function( data ) {
       //Set fade effect for quote text
       $(".hidden").fadeTo(1000, 1);
-
       //set text
-      $("#quote-text").html( '"' + jsonText.quote + '"');
-      $("#quote-byline").html('- ' + jsonText.author);
-
+      $("#quote-text").html( '"' + data.quoteText + '"');
+      $("#quote-byline").html('- ' + data.quoteAuthor);
       //set some variables to track current text
-      currentQuote = '"' + jsonText.quote + '"';
-      currentAuthor = jsonText.author;
+      currentQuote = '"' + data.quoteText + '"';
+      currentAuthor = data.quoteAuthor;
       currentFormatedQuote = currentQuote + ' - ' + currentAuthor;
+      //console.log(data);
     });
-
     request.error(function( error ){
      var errorMessage = "Error! Cannot Load Resource.";
-     alert(errorMessage);
+     console.log(errorMessage);
     });
-
-  }//end of getQuote()
-
+  }
   module.currentFormatedQuote = currentFormatedQuote;
   module.currentQuote = currentQuote;
   module.currentAuthor = currentAuthor;
-  module.getQuote = getQuote;
-
+  module.get = get;
   return module;
-
 })();
 
 //jquery main
 $("document").ready(function(){
-  quote.getQuote(); //get a quote when first initializing the page
+  quote.get(); //get a quote when first initializing the page
 //handle quote button clicks
   $("#btn-quote").on("click", function(){
-    quote.getQuote();
+    quote.get();
   });
-
   //handle twitter button clicks
   $("#btn-twitter").on("click", function(){
     var twitterURL = "https://twitter.com/intent/tweet" + "?text=" + encodeURIComponent(quote.currentFormatedQuote) + "&hashtags=quote";
