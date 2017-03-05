@@ -33,7 +33,13 @@ var quote = (function(){
       //set some variables to track current text
       currentQuote = '"' + data.quoteText + '"';
       currentAuthor = data.quoteAuthor;
-      currentFormatedQuote = currentQuote + ' - ' + currentAuthor;
+      if(currentAuthor){
+        currentFormatedQuote = currentQuote + ' - ' + currentAuthor;
+      }
+      else{
+        currentFormatedQuote = currentQuote;
+      }
+
       //console.log(data);
     });
     request.error(function( error ){
@@ -54,6 +60,9 @@ $("document").ready(function(){
 //handle quote button clicks
   $("#btn-quote").on("click", function(){
     quote.get();
+    //add logic to check size of quote and compare to size of quote window
+    //if window is too small, then increase its size gradually by adding a height: 100% class
+    //remove the height: 100% class if not too big?
   });
   //handle twitter button clicks
   $("#btn-twitter").on("click", function(){
