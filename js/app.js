@@ -47,10 +47,23 @@ var quote = (function(){
      console.log(errorMessage);
     });
   }
-  module.currentFormatedQuote = currentFormatedQuote;
-  module.currentQuote = currentQuote;
-  module.currentAuthor = currentAuthor;
+  function getFormatedQuote(){
+    return currentFormatedQuote;
+  }
+
+  function getQuote(){
+    return currentQuote;
+  }
+
+  function getAuthor(){
+    return currentAuthor;
+  }
+
   module.get = get;
+  module.getFormatedQuote = getFormatedQuote;
+  module.getQuote = getQuote;
+  module.getAuthor = getAuthor;
+
   return module;
 })();
 
@@ -66,12 +79,12 @@ $("document").ready(function(){
   });
   //handle twitter button clicks
   $("#btn-twitter").on("click", function(){
-    var twitterURL = "https://twitter.com/intent/tweet" + "?text=" + encodeURIComponent(quote.currentFormatedQuote) + "&hashtags=quote";
+    var twitterURL = "https://twitter.com/intent/tweet" + "?text=" + encodeURIComponent(quote.getFormatedQuote()) + "&hashtags=quote";
     window.open(twitterURL, "Share");
   });
   //handle tumblr button clicks
   $("#btn-tumblr").on("click", function(){
-    var tumblrURL = "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags='#quote'&quote=" + quote.currentQuote + "&caption=" + quote.currentAuthor;
+    var tumblrURL = "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags='#quote'&quote=" + quote.getQuote() + "&caption=" + quote.getAuthor();
     window.open(tumblrURL, "Share");
   });
 });
