@@ -25,27 +25,43 @@ var quote = (function(){
       cache: false
     });
     request.success(function( data ) {
-      //Set fade effect for quote text
-      $(".hidden").fadeTo(1000, 1);
-      //set text
-      $("#quote-text").html( '"' + data.quoteText + '"');
-      $("#quote-byline").html('- ' + data.quoteAuthor);
+
       //set some variables to track current text
       currentQuote = '"' + data.quoteText + '"';
       currentAuthor = data.quoteAuthor;
+      //currentQuote = '"' + "This is some really really long ass quote that is going to cause the container to scroll for sure so get ready for this shit.  But I guess it wasn't quite long enough.  So let's add even more! And we need to add yet more.  Amazing!  Let's just keep this quote going and going and going." + '"'
+      //Set fade effect for quote text
+      $(".hidden").fadeTo(1000, 1);
       if(currentAuthor){
         currentFormatedQuote = currentQuote + ' - ' + currentAuthor;
+        $("#quote-byline").html("- " + currentAuthor);
       }
       else{
         currentFormatedQuote = currentQuote;
       }
-
+      //set text
+      $("#quote-text").html(currentQuote);
+      //set quote-container scroll if quote text overflows
+      toggleQuoteScroll();
       //console.log(data);
     });
     request.error(function( error ){
      var errorMessage = "Error! Cannot Load Resource.";
      console.log(errorMessage);
     });
+  }
+  function toggleQuoteScroll(){
+    var quoteContainer = $('#quote-container');
+    if(quoteContainer.hasClass('is-scrollable')){
+      quoteContainer.removeClass('is-scrollable');
+      //console.log('scroll height is: ' + quoteContainer.prop('scrollHeight'));
+      //console.log('container hight is: ' + quoteContainer.innerHeight());
+    }
+
+    if(quoteContainer.prop('scrollHeight') > quoteContainer.innerHeight()){
+      console.log('setting scrollable');
+      quoteContainer.addClass('is-scrollable');
+    }  
   }
   function getFormatedQuote(){
     return currentFormatedQuote;
