@@ -48,6 +48,8 @@ var quote = (function(){
     request.error(function( error ){
      var errorMessage = "Error! Cannot Load Resource.";
      console.log(errorMessage);
+     $("#quote-text").html('Reload!');
+     $("#quote-byline").html("");
     });
   }
   function toggleQuoteScroll(){
@@ -56,12 +58,12 @@ var quote = (function(){
 
     if(quoteContainerScrollHeight > quoteContainer.innerHeight()){
       quoteContainer.innerHeight(quoteContainerScrollHeight);
-      console.log(quoteContainer.attr('style'));
+      //console.log(quoteContainer.attr('style'));
     }else if(quoteContainer.css('height')){
         //quoteContainer.removeAttr('height');
         quoteContainer.css('height', '');
-        console.log(quoteContainer.attr('style'));
-    }  
+        //console.log(quoteContainer.attr('style'));
+    }
   }
   function getFormatedQuote(){
     return currentFormatedQuote;
