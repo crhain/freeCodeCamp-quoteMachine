@@ -52,40 +52,39 @@ var quote = (function(){
   }
   function toggleQuoteScroll(){
     var quoteContainer = $('#quote-container');
-    if(quoteContainer.hasClass('is-scrollable')){
-      quoteContainer.removeClass('is-scrollable');
-      //console.log('scroll height is: ' + quoteContainer.prop('scrollHeight'));
-      //console.log('container hight is: ' + quoteContainer.innerHeight());
-    }
-
     if(quoteContainer.prop('scrollHeight') > quoteContainer.innerHeight()){
-      console.log('setting scrollable');
-      quoteContainer.addClass('is-scrollable');
-    }  
+      if(!quoteContainer.hasClass('is-scrollable')){
+        quoteContainer.addClass('is-scrollable');
+      }
+
+    }else{
+      if(quoteContainer.hasClass('is-scrollable')){
+        quoteContainer.removeClass('is-scrollable');
+        //console.log('scroll height is: ' + quoteContainer.prop('scrollHeight'));
+        //console.log('container hight is: ' + quoteContainer.innerHeight());
+      }
+    }
   }
   function getFormatedQuote(){
     return currentFormatedQuote;
   }
-
   function getQuote(){
     return currentQuote;
   }
-
   function getAuthor(){
     return currentAuthor;
   }
-
   module.get = get;
   module.getFormatedQuote = getFormatedQuote;
   module.getQuote = getQuote;
   module.getAuthor = getAuthor;
-
+  module.toggleQuoteScroll = toggleQuoteScroll;
   return module;
 })();
 
 //jquery main
 $("document").ready(function(){
-  quote.get(); //get a quote when first initializing the page
+  quote.get(); //get a quote when first initializing the page  
 //handle quote button clicks
   $("#btn-quote").on("click", function(){
     quote.get();
@@ -103,4 +102,17 @@ $("document").ready(function(){
     var tumblrURL = "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags='#quote'&quote=" + quote.getQuote() + "&caption=" + quote.getAuthor();
     window.open(tumblrURL, "Share");
   });
+  //resset scroll window if window size resized
+  $( window ).resize(function(e){
+    safeAnimationFrame(quote.toggleQuoteScroll);
+  });
 });
+
+function safeAnimationFrame(func){
+  if(window.requestAnimationFrame){
+    window.requestAnimationFrame(func);
+  }
+  else{
+    window.setTimeout(func, 16.6);
+  }
+}
