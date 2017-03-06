@@ -52,18 +52,16 @@ var quote = (function(){
   }
   function toggleQuoteScroll(){
     var quoteContainer = $('#quote-container');
-    if(quoteContainer.prop('scrollHeight') > quoteContainer.innerHeight()){
-      if(!quoteContainer.hasClass('is-scrollable')){
-        quoteContainer.addClass('is-scrollable');
-      }
+    var quoteContainerScrollHeight = quoteContainer.prop('scrollHeight');
 
-    }else{
-      if(quoteContainer.hasClass('is-scrollable')){
-        quoteContainer.removeClass('is-scrollable');
-        //console.log('scroll height is: ' + quoteContainer.prop('scrollHeight'));
-        //console.log('container hight is: ' + quoteContainer.innerHeight());
-      }
-    }
+    if(quoteContainerScrollHeight > quoteContainer.innerHeight()){
+      quoteContainer.innerHeight(quoteContainerScrollHeight);
+      console.log(quoteContainer.attr('style'));
+    }else if(quoteContainer.css('height')){
+        //quoteContainer.removeAttr('height');
+        quoteContainer.css('height', '');
+        console.log(quoteContainer.attr('style'));
+    }  
   }
   function getFormatedQuote(){
     return currentFormatedQuote;
@@ -84,7 +82,7 @@ var quote = (function(){
 
 //jquery main
 $("document").ready(function(){
-  quote.get(); //get a quote when first initializing the page  
+  quote.get(); //get a quote when first initializing the page
 //handle quote button clicks
   $("#btn-quote").on("click", function(){
     quote.get();
